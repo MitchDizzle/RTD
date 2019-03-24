@@ -275,15 +275,8 @@ stock bool CanEntitySeeTarget(int iEnt, int iTarget){
 		GetClientEyePosition(iTarget, fEnd);
 	else GetEntPropVector(iTarget, Prop_Send, "m_vecOrigin", fEnd);
 
-	Handle hTrace = TR_TraceRayFilterEx(fStart, fEnd, MASK_SOLID, RayType_EndPoint, TraceFilterIgnorePlayersAndSelf, iEnt);
-	if(hTrace != INVALID_HANDLE){
-		if(TR_DidHit(hTrace)){
-			CloseHandle(hTrace);
-			return false;
-		}
-		CloseHandle(hTrace);
-	}
-	return true;
+	TR_TraceRayFilterEx(fStart, fEnd, MASK_SOLID, RayType_EndPoint, TraceFilterIgnorePlayersAndSelf, iEnt);
+	return !TR_DidHit(null);
 }
 
 stock bool GetClientLookPosition(int client, float fPosition[3]){
@@ -291,9 +284,9 @@ stock bool GetClientLookPosition(int client, float fPosition[3]){
 	GetClientEyePosition(client, fPos);
 	GetClientEyeAngles(client, fAng);
 
-	Handle hTrace = TR_TraceRayFilterEx(fPos, fAng, MASK_SHOT, RayType_Infinite, TraceFilterIgnorePlayers, client);
-	if(hTrace != INVALID_HANDLE && TR_DidHit(hTrace)){
-		TR_GetEndPosition(fPosition, hTrace);
+	TR_TraceRayFilterEx(fPos, fAng, MASK_SHOT, RayType_Infinite, TraceFilterIgnorePlayers, client);
+	if(TR_DidHit(null)){
+		TR_GetEndPosition(fPosition, null);
 		return true;
 	}
 	return false;

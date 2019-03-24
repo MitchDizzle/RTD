@@ -186,7 +186,7 @@ stock int GetLauncher(int iProjectile){
 	int iWeapon = GetEntPropEnt(iProjectile, Prop_Send, "m_hOriginalLauncher");
 	if(iWeapon > MaxClients)
 		return GetEntPropEnt(iWeapon, Prop_Send, "m_hOwnerEntity");
-	else return 0;
+	else return -1;
 }
 
 stock void Parent(int iEnt, int iTo){
@@ -398,7 +398,7 @@ stock void DisarmWeapons(int client, bool bDisarm){
 
 stock int CreateEffect(float fPos[3], const char[] sEffect, float fTime=1.0){
 	int iEffect = CreateEntityByName("info_particle_system");
-	if(!IsValidEdict(iEffect)) return 0;
+	if(!IsValidEdict(iEffect)) return -1;
 
 	TeleportEntity(iEffect, fPos, NULL_VECTOR, NULL_VECTOR);
 	DispatchKeyValue(iEffect, "effect_name", sEffect);
@@ -414,7 +414,7 @@ stock int CreateEffect(float fPos[3], const char[] sEffect, float fTime=1.0){
 stock int CreateParticle(int iClient, char[] strParticle, bool bAttach=true, char[] strAttachmentPoint="", float fOffset[3]={0.0, 0.0, 36.0}){
 	//Thanks J-Factor for CreateParticle()
 	int iParticle = CreateEntityByName("info_particle_system");
-	if(!IsValidEdict(iParticle)) return 0;
+	if(!IsValidEdict(iParticle)) return -1;
 
 	float fPosition[3], fAngles[3], fForward[3], fRight[3], fUp[3];
 	GetClientAbsOrigin(iClient, fPosition);
@@ -448,7 +448,7 @@ stock int CreateParticle(int iClient, char[] strParticle, bool bAttach=true, cha
 stock int CreateRagdoll(int client, bool bFrozen=false){
 	int iRag = CreateEntityByName("tf_ragdoll");
 	if(iRag <= MaxClients || !IsValidEntity(iRag))
-		return 0;
+		return -1;
 
 	float fPos[3], fAng[3], fVel[3];
 	GetClientAbsOrigin(client, fPos);
@@ -499,7 +499,7 @@ stock void CreateExplosion(float fPos[3], float fDamage=100.0, float fRadius=80.
 stock int CreateTesla(float fPos[3]){
 	int iTesla = CreateEntityByName("point_tesla");
 	if(iTesla <= MaxClients || !IsValidEntity(iTesla))
-		return 0;
+		return -1;
 
 	TeleportEntity(iTesla, fPos, NULL_VECTOR, NULL_VECTOR);
 
@@ -559,7 +559,7 @@ stock int ConnectWithBeam(int iEnt, int iEnt2, int iRed=255, int iGreen=255, int
 
 stock int AttachRotating(int client, int iEnt, float fDist=128.0, float fSpeed=100.0){
 	int iRot = CreateEntityByName("func_door_rotating");
-	if(iRot <= MaxClients) return 0;
+	if(iRot <= MaxClients) return -1;
 
 	float fPos[3];
 	GetClientAbsOrigin(client, fPos);
